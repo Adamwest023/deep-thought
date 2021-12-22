@@ -1,6 +1,8 @@
+const path = require('path');
 const express = require('express');
 // import ApolloServer
 const { ApolloServer } = require('apollo-server-express');
+
 
 // import the middleware function
 const { authMiddleware } = require('./utils/auth');
@@ -36,6 +38,18 @@ startServer();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Serve up static assets
+// we instruct the Express,js server to serve any files in the
+// React applications's build directory in the client folder
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+//wildcard GET route for the server, any location that the server doesn't
+// have an explicit route defined
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 db.once('open', () => {
   app.listen(PORT, () => {
