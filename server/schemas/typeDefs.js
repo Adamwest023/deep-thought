@@ -1,10 +1,10 @@
-    // import the gpl tagged template function
-    const {gql} = require('apollo-server-express');
+// import the gpl tagged template function
+const { gql } = require('apollo-server-express');
 
-    //create our typeDefs
-    //create a custom data type called Thought 
-    // set a custom type that defines what we want to have returned in type Query
-    const typeDefs = gql `
+//create our typeDefs
+//create a custom data type called Thought 
+// set a custom type that defines what we want to have returned in type Query
+const typeDefs = gql`
         type Thought {
             _id: ID
             thoughtText: String
@@ -48,5 +48,5 @@
         }
     `;
 
-    //export the typeDefs
-    module.exports = typeDefs;
+//export the typeDefs
+module.exports = typeDefs;

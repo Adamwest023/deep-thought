@@ -22,10 +22,10 @@ const startServer = async () => {
     //pass in a contect method that's set to return whatsever you want available in the resolvers
     context: authMiddleware
   });
-
+  
   // Start the Apollo server
   await server.start();
-
+  
   // integrate our Apollo server with the Express application as middleware
   server.applyMiddleware({ app });
 
@@ -47,9 +47,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 //wildcard GET route for the server, any location that the server doesn't
 // have an explicit route defined
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 
 db.once('open', () => {
   app.listen(PORT, () => {
