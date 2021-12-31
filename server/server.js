@@ -1,55 +1,38 @@
-const path = require('path');
 const express = require('express');
-// import ApolloServer
-const { ApolloServer } = require('apollo-server-express');
+const {ApolloServer} = require('apollo-server-express');
+const path = require('path');
 
-
-// import the middleware function
-const { authMiddleware } = require('./utils/auth');
-
-// import our typeDefs and resolvers
-const { typeDefs, resolvers } = require('./schemas');
+const {typeDefs, resolvers} = require('./schemas');
+const {authMiddleware} = require('./utils/auth');
 const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
 const startServer = async () => {
-  // create a new Apollo server and pass in our schema data
-  const server = new ApolloServer({ 
-    typeDefs, 
-    resolvers, 
-    //pass in a contect method that's set to return whatsever you want available in the resolvers
-    context: authMiddleware
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: authMiddleware,
   });
-  
-  // Start the Apollo server
   await server.start();
-  
-  // integrate our Apollo server with the Express application as middleware
   server.applyMiddleware({ app });
-
-  // log where we can go to test our GQL API
   console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 };
 
-// Initialize the Apollo server
-startServer();
+startServer()
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Serve up static assets
-// we instruct the Express,js server to serve any files in the
-// React applications's build directory in the client folder
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
-//wildcard GET route for the server, any location that the server doesn't
-// have an explicit route defined
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-// });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 db.once('open', () => {
   app.listen(PORT, () => {
