@@ -1,14 +1,14 @@
 import React from 'react';
 //import key pieces to to the application
+//BrowserRouter, Route, and Switch components from the react-router-dom then 
+//renamed BrowserRouter to Router
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
-//BrowserRouter, Route, and Switch components from the react-router-dom then 
-//renamed BrowserRouter to Router
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 //import components
 import Header from './components/Header';

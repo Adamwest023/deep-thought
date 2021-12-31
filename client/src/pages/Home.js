@@ -1,11 +1,12 @@
 import React from 'react';
+//import the ThoughtList
+import ThoughtList from '../components/ThoughtList';
+
 //import userQuery hook
 import { useQuery } from '@apollo/client';
 //import newly created query
 import { QUERY_THOUGHTS } from '../utils/queries';
 
-//import the ThoughtList
-import ThoughtList from '../components/ThoughtList';
 
 const Home = () => {
   // use useQuery hook to make query request
@@ -17,20 +18,21 @@ const Home = () => {
   //using optional chaining to say "if data exists, store it in the thoughts constant we just created"
   //if data is undefined  then save an empty array to the thoughts component 
   const thoughts = data?.thoughts || [];
-  console.log(thoughts);
-
   return (
     <main>
-    <div className="flex-row justify-space-between">
-      <div className="col-12 mb-3">
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <ThoughtList thoughts={thoughts} title="Some Feed for Thought(s)..." />
-        )}
+      <div className="flex-row justify-space-between">
+        <div className="col-12 mb-3">
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <ThoughtList
+              thoughts={thoughts}
+              title="Some Feed for Thought(s)..."
+            />
+          )}
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
   );
 };
 
