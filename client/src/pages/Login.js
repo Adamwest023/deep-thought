@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+//import mutation and hook
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER} from '../utils/mutations';
+
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
+
+  // initialize the LOGIN_USER mutation into the function
+  const [login, {error}] = useMutation(LOGIN_USER);
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -17,11 +24,16 @@ const Login = (props) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // clear form values
-    setFormState({
-      email: '',
-      password: '',
-    });
+   try {
+     const {data} = await login({
+       //... is a spread operator 
+       //we are setting the variables field in out mutation to be an object with key/value pairs
+       variables: { ...formState}
+     });
+     console.log(data);
+   }catch (e) {
+     console.error(e)
+   }
   };
 
   return (
@@ -53,6 +65,7 @@ const Login = (props) => {
                 Submit
               </button>
             </form>
+            {error && <div>Login failed</div>}
           </div>
         </div>
       </div>
