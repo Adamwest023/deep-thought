@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 //import mutation and hook
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER} from '../utils/mutations';
+//import AuthService
+import Auth from '../utils/auth';
 
 
 const Login = (props) => {

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 //add hooks for user login and creation
 import { useMutation } from '@apollo/client';
 //import mutation
-import {ADD_USER} from '../utils/mutations';
+import { ADD_USER } from '../utils/mutations';
+//import AuthService 
+import Auth from '../utils/auth';
 
 const Signup = () => {
   const [formState, setFormState] = useState({ username: '', email: '', password: '' });
   //this Hook creates and prepares a Js function that wraps around our mutation code and returns it to us
-  const [addUser, {error}] = useMutation(ADD_USER);
+  const [addUser, { error }] = useMutation(ADD_USER);
 
   // update state based on form input changes
   const handleChange = event => {
@@ -30,11 +32,10 @@ const Signup = () => {
       // for our addUser mutation function. Upon success, we destructure the data object from the response of our mutation 
       //and simply log it to see if we're getting our token. 
       const { data } = await addUser({
-        variables: {...formState}
+        variables: { ...formState }
       });
-      console.log(data);
-    }
-    catch(e) {
+      Auth.login(data.addUser.token);
+    } catch (e) {
       console.error(e);
     }
   };
