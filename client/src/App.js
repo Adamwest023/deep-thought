@@ -10,6 +10,9 @@ import {
   createHttpLink,
 } from '@apollo/client';
 
+//with setContext we can create a middleware function that will retrieve the token
+import { setContext } from '@apollo/client/link/context';
+
 //import components
 import Header from './components/Header';
 import Footer from './components/Footer';

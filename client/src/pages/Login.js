@@ -32,7 +32,7 @@ const Login = (props) => {
        //we are setting the variables field in out mutation to be an object with key/value pairs
        variables: { ...formState}
      });
-     console.log(data);
+     Auth.login(data.login.token);
    }catch (e) {
      console.error(e)
    }
