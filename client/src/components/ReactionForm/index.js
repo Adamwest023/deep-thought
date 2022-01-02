@@ -7,7 +7,7 @@ const ReactionForm = ({ thoughtId }) => {
     const [reactionBody, setBody] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
 
-    const [addReaction, {error}] = useMutation(ADD_REACTION);
+    const [addReaction, { error }] = useMutation(ADD_REACTION);
 
     const handleChange = event => {
         if (event.target.value.length <= 280) {
@@ -18,8 +18,17 @@ const ReactionForm = ({ thoughtId }) => {
 
     const handleFormSubmit = async event => {
         event.preventDefault();
-        setBody('');
-        setCharacterCount(0);
+        try {
+            //add reaction to database
+            await addReaction({
+                variable: { reactionBody, thoughtId }
+            });
+            // clear form value
+            setBody('');
+            setCharacterCount(0);
+        } catch (e) {
+            console.error(e);
+        }
     };
     return (
         <div>
